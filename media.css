@@ -1,0 +1,10 @@
+@media screen and (max-width:580px) {
+     #timer{
+        top: 33%;
+        left: 19%;
+     }
+     #btn-container{
+        left: 24%;
+        top: 44%;
+     }
+}

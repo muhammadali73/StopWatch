@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media.css">
+    <title>Stop Watch</title>
+</head>
+<body onoffline="off()" ononline="on()">
+    <div id="alert"></div>
+    <div id="timer">00 : 00 : 00</div>
+    <div id="btn-container" class="btns">
+        <button style="background-color: #4CAF50;"  class="btn" onclick="start()" id="start">Start</button>
+        <button style="background-color: red;" class="btn" onclick="stop()">Stop</button>
+        <button style="background-color: rgb(123, 236, 236)" class="btn" onclick="reset()" id="reset">Reset</button>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
