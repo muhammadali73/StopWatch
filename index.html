@@ -1,20 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="media.css">
-    <title>Stop Watch</title>
+    <title>Stopwatch</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #000;
+        }
+
+        #timer {
+            font-size: 4rem;
+            font-family: "Roboto Mono";
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        #controls {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .control {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 50%;
+            padding: 0.5rem;
+            width: 5rem;
+            height: 5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control:active {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .control i {
+            font-size: 2.5rem;
+            color: #555;
+            transition: color 0.2s;
+        }
+
+        .control span {
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            color: white;
+            transition: opacity .5s;
+        }
+
+        .control:hover span {
+            opacity: 1;
+            scale: 1.1;
+        }
+
+        .control::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            transition: height 1s;
+        }
+
+        .control:hover::before {
+            height: 100%;
+        }
+
+        .control:first-child:hover {
+            background-color: #16a34a;
+        }
+
+        .control:first-child:active:hover {
+            background-color: #148a3d;
+        }
+
+        .control:nth-child(2):hover {
+            background-color: #f7d119;
+        }
+
+        .control:nth-child(2):active:hover {
+            background-color: #eac212;
+        }
+
+        .control:last-child:hover {
+            background-color: #f44336;
+        }
+
+        .control:last-child:active:hover {
+            background-color: #f03b2b;
+        }
+
+        .circle {
+            height: 500px;
+            width: 500px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #111;
+        }
+
+        @keyframes rgb {
+            0% {
+                border-top: 5px solid blue;
+                border-bottom: 5px solid rgb(185, 24, 51);
+                border-left: 5px solid blue;
+                border-right: 5px solid rgb(185, 24, 51);
+            }
+
+            100% {
+                border-top: 5px solid rgb(185, 24, 51);
+                border-bottom: 5px solid blue;
+                border-left: 5px solid rgb(185, 24, 51);
+                border-right: 5px solid blue;
+            }
+        }
+
+        a {
+            display: block;
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 18px;
+            font-family: sans-serif;
+            text-decoration: none;
+            color: #333;
+            border: 5px solid rgb(1, 68, 1);
+            letter-spacing: 2px;
+            text-align: center;
+            position: relative;
+            transition: all .35s;
+            border-radius: 10px;
+        }
+
+        a span {
+            position: relative;
+            z-index: 2;
+        }
+
+        a:after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(1, 65, 1, 0.801);
+            transition: all .35s;
+        }
+
+        a:hover {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        a:hover:after {
+            width: 100%;
+        }
+
+        .aa {
+            border: 5px solid navy;
+        }
+
+        .aa::after {
+            background: navy;
+        }
+
+        .aaa {
+            border: 5px solid red;
+        }
+
+        .aaa::after {
+            background: red;
+        }
+
+        .tym {
+            display: flex;
+            transform: translateY(-50px);
+            color: #817d7d;
+        }
+
+        p {
+            margin-left: 42px;
+            font-size: 18px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .top {
+            transform: translateY(-30px);
+        }
+
+        .mar-1 {
+            position: relative;
+            left: -39px;
+        }
+        .mar-2 {
+            position: relative;
+            left: -21px;
+        }
+        .mar-3 {
+            position: relative;
+            left: -11px;
+        }
+        .mar-4 {
+            position: relative;
+            left: 3px;
+        }
+    </style>
 </head>
-<body onoffline="off()" ononline="on()">
-    <div id="alert"></div>
-    <div id="timer">00 : 00 : 00</div>
-    <div id="btn-container" class="btns">
-        <button style="background-color: #4CAF50;"  class="btn" onclick="start()" id="start">Start</button>
-        <button style="background-color: red;" class="btn" onclick="stop()">Stop</button>
-        <button style="background-color: rgb(123, 236, 236)" class="btn" onclick="reset()" id="reset">Reset</button>
+
+<body>
+    <div class="circle">
+        <div id="timer">00 : 00 : 00 : 00</div>
+        <div class="tym">
+            <p class="mar-1">Hours</p>
+            <p class="mar-2">Minutes</p>
+            <p class="mar-3">Seconds</p>
+            <p class="mar-4">Milisec</p>
+        </div>
+        <div id="controls">
+            <div onclick="start()" id="start" class="top">
+                <div class="wrapper">
+                    <a href="#"><span style="color: #fff;">Start</span></a>
+                </div>
+            </div>
+            <div onclick="stop()" id="stop" class="top">
+                <div class="wrapper1">
+                    <a href="#" class="aaa"><span style="color: #fff;">Stop</span></a>
+                </div>
+            </div>
+            <div onclick="reset()" id="reset" class="top">
+                <div class="wrapper2">
+                    <a href="#" class="aa"><span style="color: #fff;">Reset</span></a>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
+
 </html>
