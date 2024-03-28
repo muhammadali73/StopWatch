@@ -4,14 +4,22 @@ let second = 0;
 let minute = 0;
 let hour = 0;
 let stoppedTime = 0;
+let starttime = 0
 function on() {
     document.getElementById("alert").innerHTML = "You Are Online";
+
 }
 function off() {
     document.getElementById("alert").innerHTML = "You Are Offline";
 }
 function start() {
-    document.getElementById("start").disabled = true;
+    const startButton = document.getElementById("start");
+    if (!startButton.disabled) {
+        startButton.disabled = true;
+        starttime = Date.now() - (hour * 3600000 + minute * 60000 + second * 1000 + milisecond)
+        timerInterval = setInterval(timer, 10);
+    }
+}
 
     function timer() {
         milisecond++
@@ -68,12 +76,10 @@ function start() {
             }
         }
     }
-    timerInterval = setInterval(timer, 10)
-}
+   
 function stop() {
     clearInterval(timerInterval)
     document.getElementById("start").disabled = false;
-    stoppedTime = Date.now() - (hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000);
 }
 function reset() {
     clearInterval(timerInterval);
@@ -83,6 +89,5 @@ function reset() {
     hour = 0;
     stoppedTime = 0;
     document.getElementById("timer").textContent = "00 : 00 : 00 : 00";
-    document.getElementById("reset").disabled = false;
     document.getElementById("start").disabled = false;
 }
